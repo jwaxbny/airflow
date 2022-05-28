@@ -1,0 +1,1 @@
+docker-compose down && docker-compose --profile flower up -d
