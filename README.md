@@ -1,37 +1,30 @@
-# docker-airflow
+# AIRFLOW
 
-This repository contains a **Docker Compose File** of [apache-airflow](https://github.com/apache/incubator-airflow) for [Docker](https://www.docker.com/)'s [automated build](https://hub.docker.com/r/apache/airflow) published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
+## Overview
 
-## Informations
+This is a playground project I use to experiment with Airflow.
 
-* Based on Python (3.6-slim-buster) official Image [python:3.6-slim-buster](https://hub.docker.com/_/python/) and uses the official [Postgres](https://hub.docker.com/_/postgres/) as backend and [Redis](https://hub.docker.com/_/redis/) as queue
-* Install [Docker](https://www.docker.com/)
-* Install [Docker Compose](https://docs.docker.com/compose/install/)
-* Following the Airflow release from [Python Package Index](https://pypi.python.org/pypi/apache-airflow)
+## How to run
 
-## Installation
+```sh
+# Start docker-compose
+airflow > sh ./start.sh
 
-Pull the image from the Docker repository.
+# Stop docker-compose
+airflow > sh ./stop.sh
 
-    docker pull apache/airflow:2.0.0
+# Restart docker-compose (if you change airflow.cfg)
+airflow > sh ./restart.sh
+```
 
-## Usage
+## How to test DAG
 
-By default, docker-airflow runs Airflow with **LocalExecutor** :
+```sh
+# docker ps -> get scheduler containers ID
 
-    docker-compose -f docker-compose.yml up -d
+airflow> docker exec -it 07f64f532b63 /bin/bash
+# airflow@07f64f532b63:/opt/airflow$
 
-NB : If you want to have DAGs example loaded (default=False), you've to set the following environment variable :
+airflow@07f64f532b63:/opt/airflow$ > airflow tasks test sample_srh_flow_v_1_0_0 print_date 2022-01-01
 
-`AIRFLOW__CORE__LOAD_EXAMPLES`
-
-in docker-compose.yml
-
-If you want to use Ad hoc query, make sure you've configured connections:
-Go to Admin -> Connections and Edit "postgres_default" set this values (equivalent to values in airflow.cfg/docker-compose*.yml) :
-- Host : postgres
-- Schema : airflow
-- Login : postgres
-- Password : postgres
-
-Enjoy!
+```
