@@ -1,6 +1,6 @@
 {
     "parser_group_pool": {
         "description": "limit parser_group pool usage",
-        "slots": 2
+        "slots": 5
     }
 }
